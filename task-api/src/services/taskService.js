@@ -76,6 +76,21 @@ const completeTask = (id) => {
   return updated;
 };
 
+const assignTask = (id, assignee) => {
+  const index = tasks.findIndex((task) => task.id === id);
+
+  if (index === -1) {
+    return null;
+  }
+
+  tasks[index] = {
+    ...tasks[index],
+    assignee,
+  };
+
+  return tasks[index];
+};
+
 const _reset = () => {
   tasks = [];
 };
@@ -90,5 +105,6 @@ module.exports = {
   update,
   remove,
   completeTask,
+  assignTask,
   _reset,
 };
