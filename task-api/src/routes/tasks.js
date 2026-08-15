@@ -17,8 +17,20 @@ router.get('/', (req, res) => {
   }
 
   if (page !== undefined || limit !== undefined) {
-    const pageNum = parseInt(page) || 1;
-    const limitNum = parseInt(limit) || 10;
+    const pageNum = page === undefined ? 1 : Number(page);
+    const limitNum = limit === undefined ? 10 : Number(limit);
+
+    if (
+      !Number.isInteger(pageNum) ||
+      !Number.isInteger(limitNum) ||
+      pageNum < 1 ||
+      limitNum < 1
+    ) {
+      return res.status(400).json({
+        error: 'page and limit must be positive integers',
+      });
+    }
+
     const tasks = taskService.getPaginated(pageNum, limitNum);
     return res.json(tasks);
   }
